@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useActionState, useState } from 'react'
+import { useEffect, useRef, useActionState, useState, startTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 import toast from 'react-hot-toast'
@@ -77,7 +77,7 @@ export function RecordPaymentDialog({ milestoneId, milestoneName, amountDue, org
     if (receipt_url) fd.set('receipt_url', receipt_url)
 
     setUploading(false)
-    formAction(fd)
+    startTransition(() => formAction(fd))
   }
 
   return (

@@ -18,21 +18,24 @@ export default async function InventoryPage({ searchParams }: PageProps) {
   } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: profile } = await supabase
+  const { data: profile, error: profileError } = await supabase
     .from('profiles')
     .select('organization_id')
     .eq('id', user.id)
     .single()
 
+  if (profileError) console.error('[inventory] profile query failed:', profileError.message, profileError.code)
   if (!profile?.organization_id) redirect('/login')
   const orgId = profile.organization_id
 
   // Fetch all projects for the org
-  const { data: projects } = await supabase
+  const { data: projects, error: projectsError } = await supabase
     .from('projects')
     .select('id, name, type, status')
     .eq('organization_id', orgId)
     .order('name')
+
+  if (projectsError) console.error('[inventory] projects query failed:', projectsError.message, projectsError.code)
 
   const safeProjects: ProjectRow[] = projects ?? []
 
@@ -60,7 +63,7 @@ export default async function InventoryPage({ searchParams }: PageProps) {
   }
 
   // Fetch units for the selected project
-  const { data: units } = await supabase
+  const { data: units, error: unitsError } = await supabase
     .from('units')
     .select(
       'id, unit_number, floor, block, type, carpet_area_sqft, super_buildup_area_sqft, base_price, total_price, status, facing, parking_included, blocked_by, blocked_at, sold_to, sold_at, notes'
@@ -68,6 +71,8 @@ export default async function InventoryPage({ searchParams }: PageProps) {
     .eq('project_id', selectedProject.id)
     .order('floor', { ascending: false, nullsFirst: false })
     .order('unit_number')
+
+  if (unitsError) console.error('[inventory] units query failed:', unitsError.message, unitsError.code)
 
   return (
     <div className="space-y-4">

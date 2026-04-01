@@ -8,7 +8,6 @@ import {
   BOOKING_STATUS_LABELS,
   PAYMENT_PLAN_LABELS,
 } from '@/lib/booking-constants'
-import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 interface PageProps {
@@ -90,7 +89,7 @@ export default async function BookingsPage({ searchParams }: PageProps) {
         </div>
         <Link
           href="/dashboard/bookings/new"
-          className={cn(buttonVariants({ size: 'sm' }), 'bg-amber-400 text-slate-950 hover:bg-amber-300 border-transparent')}
+          className={cn('inline-flex items-center justify-center gap-2 rounded-lg px-3 py-1.5 text-sm font-semibold transition-colors', 'bg-amber-400 text-slate-950 hover:bg-amber-300')}
         >
           + New Booking
         </Link>

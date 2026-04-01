@@ -70,7 +70,7 @@ export function Topbar({ orgName }: TopbarProps) {
 
         {/* Add Lead */}
         <Link
-          href="/dashboard/leads/new"
+          href="/dashboard/leads"
           className={cn(
             buttonVariants({ size: 'sm' }),
             'bg-amber-400 text-slate-950 hover:bg-amber-300 border-transparent'

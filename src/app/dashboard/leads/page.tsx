@@ -58,6 +58,7 @@ export default async function LeadsPage({ searchParams }: PageProps) {
       .from('profiles')
       .select('id, full_name')
       .eq('organization_id', orgId)
+      .in('role', ['admin', 'sales_manager', 'salesperson'])
       .not('full_name', 'is', null),
     supabase
       .from('projects')
